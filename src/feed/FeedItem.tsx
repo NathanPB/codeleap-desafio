@@ -14,7 +14,7 @@ export default function FeedItem({ onEdit, onDelete, style, ...data }: FeedItemA
   const authUsername = useAppSelector(s => s.auth.username)
   const isAuthor = username === authUsername
   const humanDate = React.useMemo(
-    () => humanizeDuration(+ new Date(created_datetime) - Date.now(), { largest: 1 }),
+    () => humanizeDuration(+ new Date(created_datetime) - Date.now(), { largest: 1, units: ['w', 'd', 'h', 'm', 's'] }),
     [created_datetime]
   )
 
