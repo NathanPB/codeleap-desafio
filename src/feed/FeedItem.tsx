@@ -13,7 +13,14 @@ export default function FeedItem({ style, ...data }: FeedItemArgs) {
   const authUsername = useAppSelector(s => s.auth.username)
   const isAuthor = username === authUsername
   const humanDate = React.useMemo(
-    () => humanizeDuration(+ new Date(created_datetime) - Date.now(), { largest: 1, units: ['w', 'd', 'h', 'm', 's'] }),
+    () => {
+      const millis = Date.now() - +new Date(created_datetime)
+      console.log(millis)
+      return millis <= 60000 ? 'Just Now' : `${humanizeDuration(
+        millis,
+        { largest: 1, round: true, units: ['w', 'd', 'h', 'm'] }
+      )} ago`
+    },
     [created_datetime]
   )
 
@@ -71,7 +78,7 @@ export default function FeedItem({ style, ...data }: FeedItemArgs) {
         </header>
         <section className="flex justify-between px-4 py-1 text-gray-500">
           <address className="not-italic">@{username}</address>
-          <time dateTime={created_datetime}>{humanDate} ago</time>
+          <time dateTime={created_datetime}>{humanDate}</time>
         </section>
         <section className="px-4 py-1 overflow-ellipsis overflow-hidden flex-grow">
           { content }
