@@ -4,10 +4,14 @@ const api = Axios.create({
   baseURL: process.env.REACT_APP_POSTS_API_HOST + '/careers/'
 })
 
-export interface CareerIn {
-  username: string
+
+export interface CareerEdit {
   title: string
   content: string
+}
+
+export interface CareerIn extends CareerEdit {
+  username: string
 }
 
 export interface Career extends CareerIn {
@@ -34,8 +38,8 @@ export async function createCareer(data: CareerIn) {
   return api.post<CareerIn, AxiosResponse<Career>>(`/`, data)
 }
 
-export async function editCareer(id: string, data: CareerIn) {
-  return api.patch<CareerIn, AxiosResponse<Career>>(`/${id}`, data)
+export async function editCareer(id: string, data: CareerEdit) {
+  return api.patch<CareerEdit, AxiosResponse<Career>>(`/${id}/`, data)
 }
 
 export async function deleteCareer(id: string) {

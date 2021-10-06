@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import {
   Career,
+  CareerEdit,
   CareerIn,
   CareersPaginator,
   createCareer,
@@ -9,6 +10,7 @@ import {
   getCareers
 } from "../../services/postsApi";
 import {RootState} from "../store";
+
 interface FeedState {
   status: 'IDLE' | 'LOADING' | 'SUCCEEDED' | 'FAILED'
   error?: string
@@ -36,7 +38,7 @@ export const createPost = createAsyncThunk('posts/create', async (data: CareerIn
   return response.data
 })
 
-export const editPost = createAsyncThunk('posts/edit', async ({ id, data }: { id: string, data: CareerIn }) => {
+export const editPost = createAsyncThunk('posts/edit', async ({ id, data }: { id: string, data: CareerEdit }) => {
   const response = await editCareer(id, data)
   return response.data
 })

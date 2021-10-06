@@ -3,8 +3,9 @@ import {useAppDispatch, useAppSelector} from "../redux/hooks";
 import classnames from "classnames";
 import {createPost} from "../redux/features/feed";
 import {Disclosure} from '@headlessui/react'
+import CreatePostForm from "../form/CreatePostForm";
 
-export default function CreatePostForm() {
+export default function CreatePostController() {
   const { username } = useAppSelector(s => s.auth)
   const { status } = useAppSelector(s => s.feed)
   const dispatch = useAppDispatch()
@@ -72,31 +73,14 @@ export default function CreatePostForm() {
         <Disclosure.Panel static>
           { open && (
             <form className="p-3" onSubmit={handleSubmit}>
-              <div className="mt-6">
-                <label htmlFor="title">Title</label>
-                <input
-                  id="title"
-                  type="text"
-                  placeholder="Hello world"
-                  value={title}
-                  onChange={e => setTitle(e.target.value)}
-                  className="mt-1 appearance-none rounded-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm"
-                  maxLength={64}
-                  required
-                />
-              </div>
-              <div className="my-3">
-                <label htmlFor="content">Content</label>
-                <textarea
-                  id="content"
-                  placeholder="Content Here"
-                  value={content}
-                  onChange={e => setContent(e.target.value)}
-                  className="mt-1 appearance-none rounded-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-gray-500 focus:border-gray-500 focus:z-10 sm:text-sm resize-none"
-                  maxLength={512}
-                  required
-                />
-              </div>
+
+              <CreatePostForm
+                title={title}
+                setTitle={setTitle}
+                content={content}
+                setContent={setContent}
+              />
+
               <div className="flex justify-end">
                 <input
                   type="submit"

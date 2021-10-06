@@ -3,6 +3,7 @@ import {Career} from "../services/postsApi";
 import {useAppSelector} from "../redux/hooks";
 import humanizeDuration from 'humanize-duration';
 import {Dialog, Transition} from '@headlessui/react';
+import EditPostController from "./EditPostController";
 
 type FeedItemArgs = Career & {
   style?: CSSProperties
@@ -20,6 +21,7 @@ export default function FeedItem({ onEdit, onDelete, style, ...data }: FeedItemA
   )
 
   const [showDelete, setShowDelete] = React.useState(false)
+  const [showEdit, setShowEdit] = React.useState(false)
 
   function renderDeleteDialog() {
     return (
@@ -85,16 +87,70 @@ export default function FeedItem({ onEdit, onDelete, style, ...data }: FeedItemA
     )
   }
 
+  function renderEditDialog() {
+    return (
+      <Transition appear show={showEdit} as={React.Fragment}>
+        <Dialog
+          as="div"
+          className="fixed inset-0 z-10 overflow-y-auto"
+          onClose={() => setShowEdit(false)}
+        >
+          <div className="min-h-screen px-4 text-center">
+            <Transition.Child
+              as={React.Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0" style={{ background: 'rgba(0, 0, 0, .8)' }}/>
+            </Transition.Child>
+
+            {/* This element is to trick the browser into centering the modal contents. */}
+            <span
+              className="inline-block h-screen align-middle"
+              aria-hidden="true"
+            >
+              &#8203;
+            </span>
+            <Transition.Child
+              as={React.Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl">
+                <Dialog.Title as="h3" className="text-lg font-medium">
+                  Edit Item
+                </Dialog.Title>
+                <EditPostController
+                  { ...data }
+                  dismiss={() => setShowEdit(false)}
+                />
+              </div>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
+    )
+  }
+
   function renderAuthorButtons() {
     return (
       <section>
         { showDelete && renderDeleteDialog() }
+        { showEdit && renderEditDialog() }
         <button className="inline-block mr-4 cursor-pointer" onClick={() => setShowDelete(true)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="#FFFFFF" d="M3 6v18h18v-18h-18zm5 14c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm5 0c0 .552-.448 1-1 1s-1-.448-1-1v-10c0-.552.448-1 1-1s1 .448 1 1v10zm4-18v2h-20v-2h5.711c.9 0 1.631-1.099 1.631-2h5.315c0 .901.73 2 1.631 2h5.712z"/>
           </svg>
         </button>
-        <button className="inline-block cursor-pointer" onClick={() => onEdit(data)}>
+        <button className="inline-block cursor-pointer" onClick={() => setShowEdit(true)}>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="#FFFFFF" d="M18 13.45l2-2.023v4.573h-2v-2.55zm-11-5.45h1.743l1.978-2h-3.721v2zm1.361 3.216l11.103-11.216 4.536 4.534-11.102 11.218-5.898 1.248 1.361-5.784zm1.306 3.176l2.23-.472 9.281-9.378-1.707-1.707-9.293 9.388-.511 2.169zm3.333 7.608v-2h-6v2h6zm-8-2h-3v-2h-2v4h5v-2zm13-2v2h-3v2h5v-4h-2zm-18-2h2v-4h-2v4zm2-6v-2h3v-2h-5v4h2z"/>
           </svg>

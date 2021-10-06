@@ -2,7 +2,7 @@ import React from 'react';
 import {useAppDispatch} from "../redux/hooks";
 import {logout} from "../redux/features/auth";
 import PostFeed from "../feed/PostFeed";
-import CreatePostForm from "../feed/CreatePostForm";
+import CreatePostController from "../feed/CreatePostController";
 
 export default function HomeScreen() {
   const dispatch = useAppDispatch()
@@ -16,7 +16,7 @@ export default function HomeScreen() {
           <button onClick={() => dispatch(logout())}>Logout</button>
         </header>
         <main className="flex-grow flex-shrink overflow-y-auto px-2 flex flex-col pt-3">
-          <CreatePostForm/>
+          <CreatePostController/>
           <PostFeed/>
         </main>
       </div>
