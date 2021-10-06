@@ -27,7 +27,7 @@ export async function getCareers({ limit, offset }: { limit: number, offset: num
 }
 
 export async function getCareer(id: string) {
-  return api.get<never, AxiosResponse<Career>>(id)
+  return api.get<never, AxiosResponse<Career>>(`/${id}`)
 }
 
 export async function createCareer(data: CareerIn) {
@@ -35,9 +35,9 @@ export async function createCareer(data: CareerIn) {
 }
 
 export async function editCareer(id: string, data: CareerIn) {
-  return api.patch<CareerIn, AxiosResponse<Career>>(id, data)
+  return api.patch<CareerIn, AxiosResponse<Career>>(`/${id}`, data)
 }
 
 export async function deleteCareer(id: string) {
-  return api.delete<never, AxiosResponse<undefined>>(id)
+  return api.delete<never, AxiosResponse<undefined>>(`/${id}`)
 }

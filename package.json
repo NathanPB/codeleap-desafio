@@ -2,6 +2,7 @@
   "name": "codeleap-teste",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://dev.codeleap.co.uk",
   "dependencies": {
     "@craco/craco": "^6.3.0",
     "@headlessui/react": "^1.4.1",
