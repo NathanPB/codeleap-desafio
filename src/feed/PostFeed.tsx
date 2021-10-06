@@ -1,5 +1,5 @@
 import React from "react";
-import {deletePost, loadFeed} from "../redux/features/feed";
+import {loadFeed} from "../redux/features/feed";
 import FeedItem from "./FeedItem";
 import FeedInfiniteList from "./FeedInfiniteList";
 import {useAppDispatch, useAppSelector} from "../redux/hooks";
@@ -23,8 +23,6 @@ export default function PostFeed() {
           title={post.title}
           content={post.content}
           style={style}
-          onEdit={console.log}
-          onDelete={() => dispatch(deletePost(post.id))}
         />
       )}
     />

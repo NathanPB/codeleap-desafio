@@ -4,14 +4,11 @@ import {useAppSelector} from "../redux/hooks";
 import humanizeDuration from 'humanize-duration';
 import EditPostController from "./EditPostController";
 import StandardDialog from "../utils/StandardDialog";
+import DeletePostController from "./DeletePostController";
 
-type FeedItemArgs = Career & {
-  style?: CSSProperties
-  onEdit: (data: Career) => void
-  onDelete: (data: Career) => void
-}
+type FeedItemArgs = Career & { style?: CSSProperties }
 
-export default function FeedItem({ onEdit, onDelete, style, ...data }: FeedItemArgs) {
+export default function FeedItem({ style, ...data }: FeedItemArgs) {
   const { username, created_datetime, title, content } = data
   const authUsername = useAppSelector(s => s.auth.username)
   const isAuthor = username === authUsername
@@ -26,20 +23,10 @@ export default function FeedItem({ onEdit, onDelete, style, ...data }: FeedItemA
   function renderDeleteDialog() {
     return (
       <StandardDialog visible={showDelete} setVisible={setShowDelete} title={"Are you sure you want to delete this item?"}>
-        <section className="mt-4 flex justify-end">
-          <button
-            className="text-black border border-black px-3 w-24"
-            onClick={() => setShowDelete(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className="text-white bg-black border border-black px-3 ml-3 w-24"
-            onClick={() => onDelete(data)}
-          >
-            OK
-          </button>
-        </section>
+        <DeletePostController
+          { ...data }
+          dismiss={() => setShowDelete(false)}
+        />
       </StandardDialog>
     )
   }
