@@ -14,7 +14,15 @@ type FeedInfiniteListArgs = {
 export default function FeedInfiniteList({ hasMore, isLoadingMore, items, loadMore, renderItem }: FeedInfiniteListArgs) {
   const itemCount = hasMore ? items.length + 1 : items.length
   const ref = React.useRef<HTMLElement>(null)
-  const height = ref.current?.offsetHeight || 512
+  const [height, setHeight] = React.useState(128)
+
+  React.useEffect(() => {
+    const timeout = setInterval(() => {
+      setHeight(ref.current?.offsetHeight || height)
+    }, 1000)
+
+    return () => clearInterval(timeout)
+  }, [height])
 
   return (
     <section className="flex-grow" ref={ref}>
