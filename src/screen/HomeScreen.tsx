@@ -1,10 +1,10 @@
 import React from 'react';
-import {useAppDispatch, useAppSelector} from "../redux/hooks";
+import {useAppDispatch} from "../redux/hooks";
 import {logout} from "../redux/features/auth";
 import PostFeed from "../feed/PostFeed";
+import CreatePostForm from "../feed/CreatePostForm";
 
 export default function HomeScreen() {
-  const { username } = useAppSelector(s => s.auth)
   const dispatch = useAppDispatch()
 
 
@@ -15,8 +15,8 @@ export default function HomeScreen() {
           <h1 className="font-bold text-lg">CodeLeap Network</h1>
           <button onClick={() => dispatch(logout())}>Logout</button>
         </header>
-        <main className="flex-grow flex-shrink overflow-y-auto px-2 flex flex-col">
-          <span className="block text-center mt-3 flex-grow-0 flex-shrink-0">Welcome, {username}!</span>
+        <main className="flex-grow flex-shrink overflow-y-auto px-2 flex flex-col pt-3">
+          <CreatePostForm/>
           <PostFeed/>
         </main>
       </div>
